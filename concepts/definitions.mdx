@@ -1,0 +1,59 @@
+---
+title: "Definitions"
+sidebarTitle: "📖 Definitions"
+---
+
+<ResponseField name="Merchant">
+An individual or company that holds inventory and sells products. This Merchant has a Primary Commerce Engine on one of the many e-commerce platforms or has built one of their own. Click here to read more about [Merchants](/concepts/merchants/overview).
+</ResponseField>
+
+<ResponseField name="Channel">
+A channel is the entity that has created an application within Violet for the purpose of interacting directly with the data coming from a Merchant's Primary Commerce Engine.
+</ResponseField>
+
+<ResponseField name="E-Commerce Platform">
+Within Violet an e-commerce platform is the external platform that a merchant uses to facilitate their online sales. All products on Violet are sourced from these external platforms and orders are written back into these external platforms. A list of currently supported platforms can be found on the homepage of Violet.io.
+</ResponseField>
+
+<ResponseField name="Catalog">
+Catalog consists of products. The primary Product entity in Violet is called an Offer. You will want to use this 99% of the time. If you ever want to associate two products to a parent level entity, we have the concept of a Product Wrapper built into the API. Read more about '[Catalog](/concepts/catalog/overview)'. 
+</ResponseField>
+
+<ResponseField name="Offer">
+An offer represents a merchants offering of a product. Multiple merchants within Violet can sell the same item, possibly at different prices or different commission rates. You as the developer can choose which offer you want to use when making a product available for purchase.
+</ResponseField>
+
+<ResponseField name="Product">
+A product in Violet is a top level wrapper that acts as a parent for any offers from merchants who are selling this product. A top level product is not purchasable, instead it provides a collection of offers from merchants selling this product in addition to metadata around the product.
+</ResponseField>
+
+<ResponseField name="SKU">
+A SKU is the combination of variants that represent an actual item that can be purchased. An example of this might be a hoodie that has a size of Large and a color of Purple.
+</ResponseField>
+
+<ResponseField name="Variant">
+A variant is a single option of a SKU. An example of a variant would be its size or its color. When one or more variants are combined they form a SKU.
+</ResponseField>
+
+<ResponseField name="Checkout">
+With Violet's Checkout APIs, you can provide your shoppers with an end-to-end checkout experience all without leaving your app. From creating a cart and adding products to shipping and tax; Violet lets you complete checkout from any Merchant via a standardized series of headless checkout endpoints. 
+
+Read more about Violet's Checkout APIs here [Checkout](/concepts/checkout/overview) 
+</ResponseField>
+
+<ResponseField name="Bag">
+A bag represents the products and cart/order data for a single merchant. All products of the same merchant will existing in the same bag within a cart/order. If you add a product to a cart that is not from the same merchant of the previous products, a new bag will be created and the item will be added to that bag. When the cart is submitted, the bag will be associated with the order placed on the merchants e-commerce platform and contain the external order ID, status, and tracking information.
+</ResponseField>
+
+<ResponseField name="Commission Rate">
+The commission rate is the percentage of a sale that a merchant is will to give to any developers who facilitate the sale of their products. This percentage is taken from the orders subtotal and does not include tax or shipping fees.
+</ResponseField>
+
+<ResponseField name="Payout Method">
+The payout method is the bank account a developer’s cut of a transaction is deposited into. Developers can sync their bank account to Violet from their dashboard at channel.violet.io/settings/payments. The connection to this bank account only allows Violet to make deposits, we cannot read your account information or perform withdrawals.
+</ResponseField>
+
+For more e-commerce definitions checkout our [Glossary](https://violet.io/blog/glossary).
+
+
+

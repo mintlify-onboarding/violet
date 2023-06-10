@@ -1,0 +1,47 @@
+---
+title: "Authentication"
+sidebarTitle: "🔒 Authentication overview"
+---
+
+The Violet API uses API keys associated with your Violet Application along with a system generated refresh token to authenticate requests. You can view and manage your API keys in the [Channel Dashboard](https://channel.violet.io/login). 
+
+The following information needs to be included as headers in each request: 
+
+```
+X-Violet-App-Id
+X-Violet-App-Secret
+X-Violet-Token
+```
+
+Your Violet Application will provide you with a `Violet-App-Id` and `Violet-App-Secret`, however, the [Login API](/concepts/authentication/obtaining-api-token) request needs to be called the first time you are authenticating to request a `Violet-Token`. This token will be used for all subsequent calls to Violet stays valid for 24 hours. Remember to account for the need to refresh your token within the specified time window or subsequent requests will fail.
+
+In the current version of the API you are making requests on behalf of the users of your application through your Violet developer account. This means that you are authenticating with your developer account and sending your customers data through to Merchants on the other end when you place an order through the API. 
+
+You can have a quick demo of how authentication works by going through [Postman + Login](/guides/quickstart/postman-login). 
+
+The complete list of Violet Authentication APIs are as follows:
+
+[Obtaining an API Token](/concepts/authentication/obtaining-api-token)
+
+```
+GET /login
+```
+
+[Refreshing an API Token](/concepts/authentication/refreshing-an-api)
+
+```
+GET /auth/token
+```
+
+If a call is made using an expired token, Violet APIs will respond with the following: 
+
+```json JSON 
+{
+  "status": 401,
+  "message": "Token has expired",
+  "error_code": 11,
+  "timestamp": 1558040517021,
+}
+```
+
+

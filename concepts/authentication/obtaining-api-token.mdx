@@ -1,0 +1,57 @@
+---
+title: "Obtaining an API Token"
+sidebarTitle: "🔒 Obtaining an API Token"
+---
+
+The first call to Violet that needs to be made is the /login call, to authenticate your Violet Account and credentials and retrieve an authentication token. This token stays valid for 24 hours before a new one needs to be generated. 
+
+## POST /login
+
+Log in to your Violet Application and retrieve an authentication token
+
+**Request**
+
+Body
+
+<ResponseField name="username">
+Username for your Violet account created on channel.violet.io
+</ResponseField>
+
+<ResponseField name="password">
+Password for your Violet account you created on channel.violet.io
+</ResponseField>
+
+```bash Curl
+curl -X POST https://sandbox-api.violet.io/v1/login \
+-H "X-Violet-App-Id: your-app-id-here" \
+-H "X-Violet-App-Secret: your-app-secret-here" \
+-H "Content-type: application/json" \
+-d '{"username": "your-username-here", "password": "your-password-here"}'
+```
+
+**Response**
+This method returns a `token` along with other information about your Violet Account. This token is a JWT token that is used to authenticate all your requests to the Violet APIs. 
+
+```json JSON
+{
+    "id": 10000,
+    "first_name": "",
+    "last_name": "",
+    "password":,
+    "email": "",
+    "type": "",
+    "verified": false,
+    "status": null,
+    "date_created": "",
+    "date_last_modified": "",
+    "roles": [],
+    "tos_accepted": true,
+    "payment_configured": null,
+    "token": "",
+    "refresh_token": "",
+    "merchant_id": null,
+    "store_url": null
+}
+```
+
+

@@ -1,0 +1,226 @@
+---
+title: "Violet Sample App — The Ultra Store"
+sidebarTitle: "🛍 Violet Sample App — The Ultra Store"
+---
+
+Learn the basics of creating an end-to-end store using Violet for checkout by running a fully-functional sample store in your local environment. 
+
+### Before you Begin
+
+Ensure you have the following installed on your local environment before running our sample applications.
+- A web browser, such as [Chrome](https://www.google.com/chrome/dr/download) or [Safari](https://support.apple.com/downloads/safari)
+- Git ([Mac download](https://git-scm.com/download/mac)) ([Windows download](https://git-scm.com/download/win))
+- node ([download](https://nodejs.org/en/download/))
+- (Optional) ngrok ([download](https://ngrok.com/download))
+
+## Glossary
+
+Some of the terminology used in this guide is specific to Violet. Please refer to these definitions for new concepts that are introduced.
+- Violet NextJS Sample App — This is the sample application you have downloaded, Ultra.
+- Merchant — The store or brand. The gallery is currently powered by `PUBLIC` merchants, for demo purposes. In your version, this would be powered by private relationships that you build with brands. 
+- Offers — A product from a specific merchant. Since multiple brands can sell the same item, Violet lets you interact with Offers. When viewing the gallery of the sample app, you are interacting with Offers.
+- Cart — A Cart with all the items your shopper is trying to purchase. A core feature Violet powers is multi-merchant checkout. A Cart contains multiple bags; each bag contains items from a single merchant.
+- Bags — The gallery shows multiple brands/merchants, all powered through Violet. A core feature Violet powers is multi-merchant checkout. A bag is a collection of items from one single brand/merchant. 
+
+
+## Onboarding Guide
+
+### Creating an application in Violet
+
+Violet Applications provide you with the necessary credentials and tools to invoke our APIs and build your new system. Violet applications are the entry point to any system built on Violet and manage merchants you've connected to.
+
+1. Sign up at channel.violet.io/signup or login at channel.violet.io/login
+2. Click 'Create App'
+3. Name your Application
+4. Save your App Id and App Secret
+
+You can read more about Violet applications here: https://docs.violet.io/create-a-violet-application
+
+### Cloning the repositories from Github
+
+Check out the `VioletNextDemoApp` repository from Github to your local environment. You can access the repository [here](https://github.com/violetio/VioletNextDemoApp). 
+
+### Logging in with Postman or Curl to fetch your refresh token
+
+Fetch your refresh token using the App Id and App Secret you created in the first step through the following command:
+
+```bash Curl
+curl --location --request POST 'https://sandbox-api.violet.io/v1/login' \
+--header 'X-Violet-App-Secret: <REPLACE WITH YOUR APP SECRET>' \
+--header 'X-Violet-App-Id: <REPLACE WITH YOUR APP ID>' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "password": "<REPLACE WITH YOUR APP PASSWORD>",
+    "username": "<REPLACE WITH YOUR USERNAME>"
+}'
+```
+Copy this refresh token and save it for later. You will need it to start the sample application.
+
+### Starting the Application
+
+Navigate to the root directory of the package you cloned.
+
+Create a `.env` file and paste the following with your information:
+
+```text Text
+APP_SECRET=[REDACTED]
+APP_ID=[REDACTED]
+API_ENDPOINT=https://sandbox-api.violet.io
+REFRESH_TOKEN=[VIOLET REFRESH TOKEN]
+```
+
+The path to this file should look like: `~/path_to_repo/VioletNextDemoApp/.env`
+
+Install all dependencies:
+```bash Shell
+npm install
+```
+
+Run the Development server:
+```bash Shell
+npm run dev
+```
+
+Open the landing page at `http://localhost:3000`. You are now ready to play with the app. You can navigate through the gallery, add items to cart, and check out; the same way your shoppers would. 
+
+### Performing Checkout
+
+This demo app is already wired to Violet’s [Catalog](/concepts/catalog) and [Checkout APIs](/concepts/checkout). You can now perform checkout directly from the website similar to how any of your shoppers would. Products that you are viewing in this gallery are from `PUBLIC` Violet merchants available in the Violet Test environment (learn more about this [here](/concepts/merchants)). You can view the Optional Topics section below to learn how to add your own merchants. The section below shows you how checkout works. 
+
+#### Shopper Checkout
+
+Navigate through the gallery, add items to cart, and check out using Shipping and Billing Information — the same way your shoppers would. During checkout, shipping and billing addresses are required. You will need to pass in real shipping addresses to fetch shipping methods for the items you select in this demo app. Here are some sample addresses and credit cards you can use: 
+
+```text Text
+Shipping/Billing Address: 
+
+200 West Street
+New York, NY 10282
+
+Sample Credit Cards: 
+
+Number: 4242 4242 4242 4242
+Expiry: 11/29
+CVC: 111
+Zip Code: 12345
+
+(You can access a full list of test cards on https://stripe.com/docs/testing)
+```
+
+![](https://res.cloudinary.com/mintlify/image/upload/v1686251916/vplkXA9NECNJ8X5F7RM5C_gallery_btepw2.gif)
+
+#### View Order Information on your Channel Dashboard
+
+When orders are placed through your app, you can see the status of these on your [Channel dashboard](https://channel.violet.io/orders).
+
+![](https://res.cloudinary.com/mintlify/image/upload/v1686251934/Cg-ADdHQDNjDnntqFzj6y_output_dotdfp.gif)
+
+
+### Limitations
+
+While the sample application may look and feel like a complete store, please keep in mind that there are many additional, application specific features that would be required before this could be shown to real customers.
+
+1. User and cart state is not managed — If you close the browser or refresh, your cart will be lost and you will need to re-start the checkout process.
+2. App Id and App Secret are stored on local machine — These should never be exposed to the client side. When deploying as a real application, please remember to separate your backend and front-end servers.
+
+
+## Optional Topics
+
+### Wallet-based Payment Methods
+
+Apple Pay and other wallet-based payment methods have already been built into checkout for this sample application. You can use wallet-based payment methods for only payment or compelte checkout. 
+
+#### Wallet-based Payment
+
+In this scenario, customer information and shipping and billing addresses are requested prior to requesting payment information so that only payment takes place through the wallet-based payment method. The review screen will look like this: 
+
+![wallet-based](/images/wallet-based.png)
+
+#### Wallet-based Checkout
+
+In this scenario, all information is requested and attached to the cart through Apple Pay. To enable this form of checkout, you will need to do the following:
+
+Open up a new terminal. Run the app through `https` using `ngrok`
+
+```text Text
+ngrok http 3000
+```
+
+You will now see a screen similar to the one below: 
+
+![ngrok](images/PImOy89T9nr3x-Hz_uC1x_screenshot-2023-05-11-at-43937-pm.png)
+
+The "Forwarding" section has a path that routes to your local running instance of the store. 
+
+You can click on this link to open up the demo app. If you navigate through checkout now, Google Pay and other wallet-based payment methods should now be enabled by default, similar to the screens below: 
+
+<Note>
+A Card is needed in your browser/computer for Google or Apple Pay to be visible. By default, Link Pay is shown, which is Stripe's wallet solution.
+</Note>
+
+![](images/L0v5jHKG-Irtif6N4mVVm_screenshot-2023-05-11-at-45843-pm.png)
+![](images/RFQ_3gdyW9q1JP4ub7chV_screenshot-2023-05-11-at-45527-pm.png)
+
+<Note>
+Violet supports multi-merchant checkout, which includes different Shipping methods for different merchants in the same checkout experience. Since Apple Pay doesn't support showing multiple sets of shipping methods, wallet-based checkout is not available for carts with multiple merchants.
+</Note>
+
+To enable Apple Pay on compatible devices, an extra step is needed:
+
+Reach out to `support@violet.io` with the following email:
+
+```text Text
+Hi Team Violet,
+
+This is <INTRODUCTION> using the Violet ULTRA Sample App. Please enable this domain for Apple Pay: 
+
+<ENTER YOUR NGROK PATH HERE>
+
+Thank you! 
+
+<YOUR_NAME>
+```
+
+Once Violet has approved your request. You will now see Apple Pay show up if you are using Safari on Mac and have a credit card stored in the Apple Wallet. 
+
+![](/images/gdc7VBldlZagB2CBPwGzO_screenshot-2023-05-11-at-50150-pm.png)
+
+
+### Creating a sample merchant in Shopify
+
+To create a sample merchant in Shopify, you will need to create a Shopify account and dummy store. You can do this by going to https://www.shopify.com and navigating through their Getting Started guides.
+
+
+### Connecting to your sample merchant through Violet Connect
+
+Once you’ve created a Shopify store, or if you had an existing one, you can connect it to Violet by following this guide: https://docs.violet.io/merchant. Since the demo store is currently wired to including `PUBLIC` merchants, your gallery contains items from Merchants you have not explicity connected to. To change this and only see products from your stores, you will need to navigate to [this](https://github.com/violetio/VioletNextDemoApp/blob/cab64fa4e4d03c8973106ec41a77905cb77a123c/src/pages/index.tsx#L22-L41) method in the `VioletNextDemoApp` project in your local environment. You can replace the entire method with the following code snippet: 
+
+```TypeScript TypeScript
+const fetchOffers = useCallback(
+    async (page: number = 1, size: number = 20) => {
+      try {
+        const response = await searchOffers({
+          page,
+          size,
+          excludePublic: true
+        });
+
+        setOffers((prevOffers) =>
+          prevOffers
+            ? prevOffers.concat(response.data.content)
+            : response.data.content
+        );
+        setPage(response.data);
+      } catch (err) {
+        // Error fetching offers
+      }
+    },
+    []
+  );
+```
+
+
+
+
+
+

@@ -26,6 +26,10 @@
   },
   "tabs": [
     {
+      "name": "API Reference",
+      "url": "api-reference"
+    },
+    {
       "name": "Merchant Docs",
       "url": "merchant"
     },
@@ -40,20 +44,43 @@
       "pages": ["introduction"]
     },
     {
-      "group": "Essentials",
-      "pages": ["essentials/markdown", "essentials/code", "essentials/images", "essentials/settings", "essentials/navigation"]
-    },
-    {
-      "group": "API Documentation",
-      "pages": ["api-reference/authentication"]
-    },
-    {
-      "group": "Endpoint Examples",
+      "group": "💡 Concepts",
       "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/update",
-        "api-reference/endpoint/delete"
+        "concepts/definitions",
+        "concepts/environments",
+        "concepts/apps",
+        {
+          "group": "🔒 Authentication", 
+          "pages": [
+            "concepts/authentication/overview",
+            "concepts/authentication/obtaining-api-token",
+            "concepts/authentication/refreshing-an-api"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "🧭 Guides",
+      "pages": [
+        {
+          "group": "🚀 Quickstart",
+          "pages": [
+            "guides/quickstart/overview",
+            "guides/quickstart/create-a-violet-application"
+          ]
+        },
+        "guides/violet-sample-app"
+      ]
+    },
+    {
+      "group": "Login",
+      "pages": [
+        {
+          "group": "Access", 
+          "pages": [
+            "api-reference/login/login"
+          ]
+        }
       ]
     }
   ],

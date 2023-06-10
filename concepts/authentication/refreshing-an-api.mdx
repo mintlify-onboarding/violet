@@ -1,0 +1,32 @@
+---
+title: "Refreshing an API Token"
+sidebarTitle: "🔒 Refreshing an API Token"
+---
+
+To refresh your API Token you will need the ‘refresh_token’ that was provided when you logged into the API. 
+
+## GET auth/token
+
+Refresh your authentication token using the refresh token for your Application. 
+
+<br />
+
+**Request**
+
+```bash Curl
+curl https://sandbox-api.violet.io/v1/auth/token \
+-H "X-Violet-App-Id: your-app-id-here" \
+-H "X-Violet-App-Secret: your-app-secret-here" \
+-H "X-Violet-Token: your-refresh-token-here" \
+-H "Content-type: application/json"
+```
+
+**Response**
+
+This method returns an updated `token` to use for future calls. 
+
+```json JSON 
+{
+    "token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpc2hhbi5ndXJ1QHZpb2xldC5pbyIsInNjb3BlcyI6WyJST0xFX0RFVkVMT1BFUiJdLCJ1c2VyX2lkIjoxMDM5NywidXNlcl90eXBlIjoiREVWRUxPUEVSIiwibWVyY2hhbnRfaWRzIjpbXSwiZGV2ZWxvcGVyX2lkIjoxMDI5MiwiYXBwX2lkIjoiMTAzODIiLCJpc3MiOiJodHRwczovL3Zpb2xldC5pbyIsImlhdCI6MTY1MjM3Nzg3NCwiZXhwIjoxNjUyNDY0Mjc0fQ.BW1HDpe1Gm2wA-esP8NWEtn9thEsfeKsIGeEicAoMgDPEOyO6VdNP71ajqnPrMqITGadHApH-b6LewiBFAcobw"
+}
+``` 

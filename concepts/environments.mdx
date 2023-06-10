@@ -1,0 +1,73 @@
+---
+title: "Environments"
+sidebarTitle: "🚏 Environments"
+---
+
+## Overview 
+
+The Violet API provides developers with access to two environments - sandbox and live. From the experience of the developer, these environments are nearly identical with only two primary differences.
+
+1. When an order is placed in the sandbox environment no dollars are transacted and no orders are fulfilled. When an order is placed in the live environment dollars are transacted and orders will be received and fulfilled by real merchants.
+2. The sandbox product catalog is mostly static and much smaller than the live product catalog. The live product catalog is constantly growing as more merchants join Violet.
+
+
+## Sandbox
+
+When first created your app will be limited to the Sandbox environment. This allows you to build and fully test out your application without the risk of transacting real dollars. The sandbox product catalog provides you with a few thousand products across multiple taxonomies and complexities. These test products do live on private stores on real e-commerce platforms (ex. Shopify, Ecwid, etc) so you will be able to fully validate that your requests are working just as they would when using the live environment.
+
+> Depending on the product(s) ordered you may receive a confirmation email from the store that the sandbox products are sourced from when your order is placed. These are automated by the e-commerce platform and are similar to the emails that your customers may receive when making live purchases through your application.
+
+## Sandbox Order Payment
+
+When applying a payment method to an order in the sandbox environment you will need to use a test credit card number.
+
+**For successful results**
+
+Please use one of the following:
+| Card     | Number       |
+|----------|--------------|
+|Visa      |4242 4242 4242 4242|
+|Mastercard|5555 5555 5555 4444|
+|American Express | 3782 822463 10005|
+
+
+**To emulate payment failure**
+
+Please use one of the following:
+| Card     | Number       |
+|----------|--------------|
+|Card Declined| 4000 0000 0000 0002|
+|Insufficient Funds |4000 0000 0000 9995|
+|Expired Card |4000 0000 0000 0069|
+|Invalid CVC |4000 0000 0000 0127|
+|Invalid Number |4242 4242 4242 4241|
+|Processing Failure |4000 0000 0000 0119|
+
+> For additional test card numbers please visit [Stripe](https://stripe.com/docs/testing#cards)
+
+<Note>
+When you are ready to go live with your application please contact us at support@violet.io
+</Note>
+
+
+## Live 
+
+When your application has been approved you will gain access to the live environment. The live environment provides a developer with access to the live catalog of products. These are products associated with real stores where successful purchases result in true order fulfillment. The live product catalog is constantly growing. Each time a new merchant joins Violet, the catalog increases in size.
+
+When making purchases against the live environment true credit card numbers, or real oAuthed customers (coming soon), are required. The test credit card numbers available in sandbox will not work when making requests against the live API.
+
+You can request Violet to review your application to make it live by sending us an email at support@violet.io. Access to the Live environment is granted upon the successful review of a developers application. If the business model and application quality meet our requirements a developers Live API credentials will be enabled.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
