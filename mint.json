@@ -73,12 +73,79 @@
       ]
     },
     {
-      "group": "Login",
+      "group": "Orders & Checkout",
       "pages": [
         {
-          "group": "Access", 
+          "group": "Checkout - Cart", 
           "pages": [
-            "api-reference/login/login"
+            "api-reference/orders-checkout/checkout-cart/get-cart-by-id",
+            "api-reference/orders-checkout/checkout-cart/delete-cart",
+            "api-reference/orders-checkout/checkout-cart/create-cart",
+            "api-reference/orders-checkout/checkout-cart/get-cart-by-token"
+          ]
+        },
+        {
+          "group": "Checkout - Payment", 
+          "pages": [
+            "api-reference/orders-checkout/checkout-payment/apply-payment-method",
+            "api-reference/orders-checkout/checkout-payment/update-payment-transaction"
+          ]
+        },
+        {
+          "group": "Checkout - Customer", 
+          "pages": [
+            "api-reference/orders-checkout/checkout-customer/apply-guest-customer-to-cart",
+            "api-reference/orders-checkout/checkout-customer/set-shipping-address",
+            "api-reference/orders-checkout/checkout-customer/update-shipping-address",
+            "api-reference/orders-checkout/checkout-customer/set-billing-address",
+            "api-reference/orders-checkout/checkout-customer/update-billing-address"
+          ]
+        },
+        {
+          "group": "Checkout - Completion", 
+          "pages": [
+            "api-reference/orders-checkout/checkout-completion/submit-cart",
+            "api-reference/orders-checkout/checkout-completion/price-cart"
+          ]
+        },
+        {
+          "group": "Refunds", 
+          "pages": [
+            "api-reference/orders-checkout/refunds/get-order-refunds",
+            "api-reference/orders-checkout/refunds/get-bag-refunds",
+            "api-reference/orders-checkout/refunds/get-order-refund-by-id"
+          ]
+        },
+        {
+          "group": "Checkout - Shipping", 
+          "pages": [
+            "api-reference/orders-checkout/checkout-shipping/set-shipping-methods",
+            "api-reference/orders-checkout/checkout-shipping/remove-shipping-method",
+            "api-reference/orders-checkout/checkout-shipping/get-available-shipping-methods"
+          ]
+        },
+        {
+          "group": "Checkout - Discounts", 
+          "pages": [
+            "api-reference/orders-checkout/checkout-discounts/remove-discount-from-cart",
+            "api-reference/orders-checkout/checkout-discounts/add-discount-to-cart"
+          ]
+        },
+        {
+          "group": "Checkout - Items", 
+          "pages": [
+            "api-reference/orders-checkout/checkout-items/update-sku-in-cart",
+            "api-reference/orders-checkout/checkout-items/remove-sku-from-cart",
+            "api-reference/orders-checkout/checkout-items/add-sku-to-cart"
+          ]
+        },
+        {
+          "group": "Orders", 
+          "pages": [
+            "api-reference/orders-checkout/orders/get-order-by-id",
+            "api-reference/orders-checkout/orders/search-orders",
+            "api-reference/orders-checkout/orders/search-bags",
+            "api-reference/orders-checkout/orders/get-orders"
           ]
         }
       ]
