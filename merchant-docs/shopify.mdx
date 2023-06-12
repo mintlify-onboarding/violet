@@ -1,0 +1,73 @@
+---
+title: "Shopify"
+---
+
+his guide is intended for Shopify merchants who are connecting their store to Violet through a Shopify Custom App. During this process, the merchant will create a Custom App in their Shopify dashboard and then provide the generated credentials to Violet through the Violet Connect onboarding tool. The merchant will retain full control of the created Custom App and can modify or remove it at any time from within their Shopify dashboard. _Total time for completion is around 3 minutes._
+
+
+## Step 1: Creating the Custom App
+
+1. From your Shopify dashboard navigate to Settings → Apps and sales channels → Develop Apps.
+2. Click the green Create an app button.
+3. In the modal that appears, enter an app name (ex. Violet) and select the user in your system who should be the owner of this app. Typically this is the default selected user.
+
+
+
+## Step 2: Configuring Scopes
+
+From the app view click Configuration then click Configure in Admin API integration.
+
+The following access scopes are the minimum required for Violet to perform all necessary functions against your store. If any additional scopes are required by certain channels within Violet, these will be communicated to you when you enable to channel. _Note: any topics with a `write_` scope will automatically include the equivalent `read_` scope. This is by design from Shopify._
+
+`write_customers` and `read_customers` - used to add new customers when perform non-guest checkouts.
+
+`write_draft_orders` and `read_draft_orders` - used to populate and submit orders into your system.
+
+`read_fulfillments` - used to read and communicate order fulfillment statuses to the channel.
+
+`read_inventory` - used to read inventory data related to your products.
+
+`write_orders` and `read_orders` - used to update and read orders previously submitted by Violet into your system.
+
+`read_price_rules` - used to read pricing rules related to your products.
+
+`read_products` - used to read your product catalog.
+
+`read_shipping` - used to understand your shipping policies.
+
+`read_​markets` - used to understand the regions you ship to.
+
+
+_Webhook subscriptions_ should be left in the default state with the latest version being selected.
+
+
+## Step 3: API Credentials
+
+From the app view click **API credentials** then click **Install App**
+
+**Access Token**
+
+This token is used to authenticate requests made by Violet when interacting with your store. Important: this value can only be viewed once. It’s recommended that you copy and paste it into a temporary location until you finish the Violet onboarding process. If you lose this value before completing the Violet onboarding process you must uninstall the create app and start over.
+
+**API Key**
+
+This key is used in combination with the API Secret Key to verify and authenticate certain actions or events.
+
+**API Secret Key**
+
+This key is used in combination with the API Key to verify and authenticate certain actions or events.
+
+
+## Step 4: Provide Configured App Credentials to Violet
+
+Once your app is fully configured, it’s time to return to the Violet Connect onboarding tool and enter the follow credentials created in the previous steps:
+
+- Access Token
+- API Key
+- API Secret Key
+
+
+
+Once entered, click the **Connect** button to validate the credentials and complete the connection between your store and Violet. If the credentials are invalid you should check for any spaces or other copy/paste errors and try again.
+
+Upon success you will be redirected back to the channel who first sent you to Violet.

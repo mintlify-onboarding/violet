@@ -18,6 +18,10 @@
     {
       "name": "Blog",
       "url": "https://violet.io/blog"
+    },
+    {
+      "name": "Contact Us", 
+      "url": "https://violet.io/contact"
     }
   ],
   "topbarCtaButton": {
@@ -31,11 +35,7 @@
     },
     {
       "name": "Merchant Docs",
-      "url": "merchant"
-    },
-    {
-      "name": "Contact Us", 
-      "url": "https://violet.io/contact"
+      "url": "merchant-docs"
     }
   ],
   "navigation": [
@@ -148,6 +148,12 @@
             "api-reference/orders-checkout/orders/get-orders"
           ]
         }
+      ]
+    },
+    {
+      "group": "Platform Guides", 
+      "pages": [
+        "merchant-docs/shopify"
       ]
     }
   ],
