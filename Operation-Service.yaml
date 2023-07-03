@@ -1,0 +1,706 @@
+openapi: 3.0.1
+info:
+  title: Operations-Service
+  description: Operations Service API
+  contact:
+    name: Violet.io
+    url: https://violet.io
+  version: v1
+servers:
+  - url: https://sandbox-api.violet.io/v1
+tags:
+  - name: "1.0"
+  - name: Operations - Connection Health
+    description: ""
+paths:
+  /operations/connection_health:
+    get:
+      tags:
+        - Operations - Connection Health
+      summary: Get Connection Health
+      description: Reports for all accessible merchants.
+      operationId: getAllConnectionHealth
+      parameters:
+        - name: X-Violet-Token
+          in: header
+          schema:
+            type: string
+        - name: X-Violet-App-Secret
+          in: header
+          schema:
+            type: string
+        - name: X-Violet-App-Id
+          in: header
+          schema:
+            type: integer
+            format: int32
+        - name: app_id
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: exclude_public
+          in: query
+          schema:
+            type: boolean
+            default: true
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ConnectionHealth"
+  /operations/connection_health/{merchant_id}:
+    get:
+      tags:
+        - Operations - Connection Health
+      summary: Get Connection Health Report by MerchantId.
+      description:
+        ConnectionHealth reports are cached once every 24 hours, if you
+        need to request fresh data, pass ?refresh=true.
+      operationId: getConnectionHealthByMerchantId
+      parameters:
+        - name: X-Violet-Token
+          in: header
+          schema:
+            type: string
+        - name: X-Violet-App-Secret
+          in: header
+          schema:
+            type: string
+        - name: X-Violet-App-Id
+          in: header
+          schema:
+            type: integer
+            format: int32
+        - name: merchant_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: app_id
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: refresh
+          in: query
+          schema:
+            type: boolean
+            default: false
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ConnectionHealth"
+    post:
+      tags:
+        - Operations - Connection Health
+      summary: Get Custom Connection Health Report by MerchantId
+      description:
+        Get Connection Health Report by MerchantId using the provided ConnectionHealthRequest
+        to customize the returned report. This endpoint is not cached and is only
+        recommended for cases where the state of a merchant is changing rapidly (e.g.
+        during onboarding) and you don't need the entire report or can't wait for
+        the entire report to be regenerated. The normal GET endpoint is strongly encouraged
+        for normal dashboard scenarios.
+      operationId: getCustomConnectionHealthByMerchantId
+      parameters:
+        - name: X-Violet-Token
+          in: header
+          schema:
+            type: string
+        - name: X-Violet-App-Secret
+          in: header
+          schema:
+            type: string
+        - name: X-Violet-App-Id
+          in: header
+          schema:
+            type: integer
+            format: int32
+        - name: merchant_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: app_id
+          in: query
+          schema:
+            type: integer
+            format: int32
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ConnectionHealth"
+components:
+  schemas:
+    ChannelCommissionRate:
+      type: object
+      properties:
+        status:
+          type: string
+          description: The status of the given property
+          enum:
+            - complete
+            - incomplete
+            - needs_attention
+            - not_applicable
+        error:
+          $ref: "#/components/schemas/Error"
+        app_id:
+          type: integer
+          description: The app id overriding the merchant commission rate
+          format: int32
+        rate:
+          type: number
+          description: The commission rate this merchant pays to the channel
+          format: double
+      description: The status object for the channel commission rate
+    ChannelConnections:
+      type: object
+      properties:
+        status:
+          type: string
+          description: The status of the given property
+          enum:
+            - complete
+            - incomplete
+            - needs_attention
+            - not_applicable
+        error:
+          $ref: "#/components/schemas/Error"
+        total_connected:
+          type: integer
+          description: The total count of channels connected to this merchant
+          format: int32
+      description: The status object for merchant channels connected
+    CommissionRate:
+      type: object
+      properties:
+        status:
+          type: string
+          description: The status of the given property
+          enum:
+            - complete
+            - incomplete
+            - needs_attention
+            - not_applicable
+        error:
+          $ref: "#/components/schemas/Error"
+        default_rate:
+          type: number
+          description:
+            The default commission rate this merchant pays to a channel
+            if it is not overridden
+          format: double
+        overrides:
+          type: array
+          description: A list of commission rate overrides this merchant has configured
+          items:
+            $ref: "#/components/schemas/ChannelCommissionRate"
+      description: The status object for the merchant commission rate
+    Connection:
+      type: object
+      properties:
+        status:
+          type: string
+          description: The status of the given property
+          enum:
+            - complete
+            - incomplete
+            - needs_attention
+            - not_applicable
+        error:
+          $ref: "#/components/schemas/Error"
+        results:
+          $ref: "#/components/schemas/PayoutAccount"
+      description: The status object for the merchant connection
+    ConnectionHealth:
+      type: object
+      properties:
+        merchant_id:
+          type: integer
+          description:
+            The id of the merchant this connection health report pertains
+            to
+          format: int32
+        merchant_name:
+          type: string
+          description:
+            The name of the merchant this connection health report pertains
+            to
+        platform:
+          type: string
+          description: The eCommerce platform this merchant uses
+          enum:
+            - OTHER
+            - SHOPIFY
+            - MAGENTO
+            - MAGENTO_ONE
+            - WOOCOMMERCE
+            - BIGCOMMERCE
+            - LIGHTSPEED
+            - ECWID
+            - YAAS
+            - SPREECOMMERCE
+            - DEMANDWARE
+            - VOLUSION
+            - PRESTASHOP
+            - THREEDCART
+            - SYLIUS
+            - WIX
+            - SWELL
+            - MIVA
+            - WEBSPHERE
+            - ORACLECC
+            - SAPCC
+            - SQUARESPACE
+            - SHOPWARE
+            - COMMERCETOOLS
+            - MEDUSA
+            - ABICART
+            - SPRYKER
+            - MYSTORE
+            - CENTRA
+            - XCART
+            - VTEX
+            - KIBO
+            - SALEOR
+            - VENDO
+            - DIGITALRIVER
+            - CUSTOM
+        store_url:
+          type: string
+          description: The URL Of the Store
+        distribution_type:
+          type: string
+          description: The distribution type this merchant is set to
+          enum:
+            - PUBLIC
+            - PRIVATE
+        connection:
+          $ref: "#/components/schemas/Connection"
+        scope_validation:
+          $ref: "#/components/schemas/ScopeValidation"
+        sync_status:
+          $ref: "#/components/schemas/SyncStatus"
+        invalid_products:
+          $ref: "#/components/schemas/InvalidProducts"
+        offers_published:
+          $ref: "#/components/schemas/OffersPublished"
+        payout_account:
+          $ref: "#/components/schemas/Connection"
+        migration:
+          $ref: "#/components/schemas/Migration"
+        commission_rate:
+          $ref: "#/components/schemas/CommissionRate"
+        terms_of_service:
+          $ref: "#/components/schemas/TermsOfService"
+        channel_connection:
+          $ref: "#/components/schemas/ChannelConnections"
+      description:
+        The container for all status objects comprising merchant connection
+        health
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        error:
+          type: string
+        code:
+          type: integer
+          format: int32
+        id:
+          type: object
+          properties: {}
+        ids:
+          type: array
+          items:
+            type: object
+            properties: {}
+    InvalidProducts:
+      type: object
+      properties:
+        status:
+          type: string
+          description: The status of the given property
+          enum:
+            - complete
+            - incomplete
+            - needs_attention
+            - not_applicable
+        error:
+          $ref: "#/components/schemas/Error"
+        results:
+          $ref: "#/components/schemas/InvalidProductsResults"
+      description: The status object for the merchant invalid products
+    InvalidProductsResults:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: The number of invalid products the merchant has
+          format: int32
+      description: The results object for invalid products
+    MerchantStatus:
+      type: object
+      properties:
+        isConnected:
+          type: boolean
+        hasShippingMethods:
+          type: boolean
+        connected:
+          type: boolean
+    Migration:
+      type: object
+      properties:
+        status:
+          type: string
+          description: The status of the given property
+          enum:
+            - complete
+            - incomplete
+            - needs_attention
+            - not_applicable
+        error:
+          $ref: "#/components/schemas/Error"
+        results:
+          type: string
+          description: The results of the merchant payout account migration check
+          enum:
+            - MIGRATION_REQUIRED
+            - MIGRATION_IN_PROGRESS
+            - MIGRATED
+            - NOT_APPLICABLE
+            - ERROR
+      description: The status object for the merchant payout account migration
+    OffersPublished:
+      type: object
+      properties:
+        status:
+          type: string
+          description: The status of the given property
+          enum:
+            - complete
+            - incomplete
+            - needs_attention
+            - not_applicable
+        error:
+          $ref: "#/components/schemas/Error"
+        results:
+          $ref: "#/components/schemas/OffersPublishedResults"
+      description: The status object for offers published
+    OffersPublishedResults:
+      type: object
+      properties:
+        sync_complete:
+          type: boolean
+          description:
+            Boolean indicating if the merchant's product sync is complete,
+            this status helps give context on why a merchant might not have any published
+            offers
+        count:
+          type: integer
+          description: The number of offers the merchant has published
+          format: int32
+      description: The results object for offers published
+    PayoutAccount:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID
+          format: int32
+        account_id:
+          type: integer
+          description: Developer or Merchant ID
+          format: int32
+        account_type:
+          type: string
+          description: Account Type
+          enum:
+            - merchant
+            - developer
+        external_id:
+          type: string
+          description: External ID
+        country_code:
+          type: string
+          description: Country Code
+        status:
+          type: string
+          description: Status
+          enum:
+            - INCOMPLETE
+            - COMPLETE
+            - REQUIRES_UPDATES
+        verified:
+          type: boolean
+          description: Has the account been verified
+        date_created:
+          type: string
+          description: Date of account creation
+          format: date-time
+        date_last_modified:
+          type: string
+          description: Date of last account update
+          format: date-time
+        payment_service_account_type:
+          type: string
+          description: Type of account in the external payment service
+          enum:
+            - express
+            - custom
+        payment_service:
+          type: string
+          description: Payment Service used for this payout account
+          enum:
+            - stripe
+        details:
+          $ref: "#/components/schemas/PayoutAccountDetails"
+      description: Payout Account of the User. Maps to Stripe Connect Account.
+    PayoutAccountDetails:
+      type: object
+      properties:
+        legal_entity_address_city:
+          type: string
+          description: Legal Entity Address City
+        legal_entity_address_state:
+          type: string
+          description: Legal Entity Address State
+        legal_entity_address_country:
+          type: string
+          description: Legal Entity Address Country
+        legal_entity_address_postal_code:
+          type: string
+          description: Legal Entity Address Postal/Zip Code
+        legal_entity_date_of_birth:
+          type: string
+          description: Legal Entity Date of Birth
+          format: date-time
+        legal_entity_business_name:
+          type: string
+          description: Legal Entity Business Name
+        account_holder_name:
+          type: string
+          description: Account Holder Name
+        legal_entity_business_tax_id:
+          type: string
+          description: Legal Entity Business Tax ID
+        legal_entity_first_name:
+          type: string
+          description: Legal Entity First Name
+        legal_entity_last_name:
+          type: string
+          description: Legal Entity Last Name
+        legal_entity_ssn_last_four:
+          type: string
+          description: Legal Entity SSN Last Four
+        legal_entity_type:
+          type: string
+          description: Legal Entity Type
+        ssn_last_4_provided:
+          type: boolean
+          description: Has SSN Last 4 been provided
+        tosAccepted:
+          type: boolean
+          description: Have the TOS been accepted
+        legal_entity_currency:
+          type: string
+          description: Desired Currency of the Legal Entity
+        statement_descriptor:
+          type: string
+          description: The merchants desired statement descriptor
+        website_url:
+          type: string
+          description: The merchants website
+        email:
+          type: string
+          description: The merchants email
+        phone:
+          type: string
+          description: The merchants phone number
+        payoutsEnabled:
+          type: boolean
+        paymentsEnabled:
+          type: boolean
+        hasPayoutAccount:
+          type: boolean
+        disabledReason:
+          type: string
+        currentlyDue:
+          type: array
+          items:
+            type: string
+        eventuallyDue:
+          type: array
+          items:
+            type: string
+        pastDue:
+          type: array
+          items:
+            type: string
+        pendingVerification:
+          type: array
+          items:
+            type: string
+        legal_entity_address_line_1:
+          type: string
+          description: Legal Entity Address Line One
+        legal_entity_address_line_2:
+          type: string
+          description: Legal Entity Address Line Two
+    ScopeValidation:
+      type: object
+      properties:
+        status:
+          type: string
+          description: The status of the given property
+          enum:
+            - complete
+            - incomplete
+            - needs_attention
+            - not_applicable
+        error:
+          $ref: "#/components/schemas/Error"
+        results:
+          $ref: "#/components/schemas/ScopeValidationResults"
+      description: The status object for the merchant connection
+    ScopeValidationResults:
+      type: object
+      properties:
+        valid:
+          type: boolean
+          description: Indicates if the scopes are valid or not
+        missing_scopes:
+          type: array
+          description: A list of required scopes that are missing
+          items:
+            type: string
+      description: The results object for scope validation
+    ShopifyProductSyncs:
+      required:
+        - merchant_id
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        merchant_id:
+          type: integer
+          description: Merchant ID
+          format: int32
+        status:
+          type: string
+          description: Status of Sync
+          enum:
+            - NOT_STARTED
+            - PENDING
+            - IN_PROGRESS
+            - COMPLETED
+            - FAILED
+        abort:
+          type: boolean
+          description: Should the sync be aborted
+        total_products:
+          type: integer
+          description: Total number of products in the store
+          format: int32
+        total_products_synced:
+          type: integer
+          description: Total number of products successfully synced
+          format: int32
+        resync_required:
+          type: boolean
+          description: Does this merchant require a resync
+        date_last_synced:
+          type: string
+          description: Date of last sync
+          format: date-time
+        taxonomy_synced:
+          type: boolean
+          description: Has the taxonomy been synced
+        webhooks_created:
+          type: boolean
+          description: Have the webhooks been created
+      description: Shopify Product Sync Tracking & Status
+    SyncStatus:
+      type: object
+      properties:
+        status:
+          type: string
+          description: The status of the given property
+          enum:
+            - complete
+            - incomplete
+            - needs_attention
+            - not_applicable
+        error:
+          $ref: "#/components/schemas/Error"
+        results:
+          $ref: "#/components/schemas/ShopifyProductSyncs"
+      description: The status object for the product sync
+    TermsOfService:
+      type: object
+      properties:
+        status:
+          type: string
+          description: The status of the given property
+          enum:
+            - complete
+            - incomplete
+            - needs_attention
+            - not_applicable
+        error:
+          $ref: "#/components/schemas/Error"
+        results:
+          type: array
+          description: The results of the merchant terms of service acceptance check
+          items:
+            $ref: "#/components/schemas/policy_acceptance"
+      description: "The status object for the merchant terms of service acceptance "
+    policy_acceptance:
+      required:
+        - ip_address
+        - policy_type
+        - user_email_address
+        - user_id
+      type: object
+      properties:
+        user_id:
+          type: integer
+          description: ID of User accepting the policy
+          format: int64
+        user_email_address:
+          type: string
+          description: Email address of the user who accepted a policy.
+        version:
+          type: string
+          description: Version of policy
+        ip_address:
+          type: string
+          description: IP Address of User during policy acceptance
+        policy_type:
+          type: string
+          description: Type of policy being accepted
+          enum:
+            - TERMS_OF_SERVICE
+            - PRIVACY
+            - CHANNEL_PAYMENT_BYPASS
+        date_accepted:
+          type: string
+          description: Date the user first accepted this version of the policy.
+          format: date-time
+      description: Record of User accepting a policy.

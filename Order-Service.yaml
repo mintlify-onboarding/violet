@@ -1,0 +1,2667 @@
+openapi: 3.0.1
+info:
+  title: Order-Service
+  contact:
+    name: Violet.io
+  version: v1
+servers:
+- url: https://sandbox-api.violet.io/v1
+tags:
+- name: Orders
+  description: ""
+- name: Checkout - Cart
+  description: ""
+- name: Checkout - Items
+  description: ""
+- name: Checkout - Discounts
+  description: ""
+- name: Checkout - Customer
+  description: ""
+- name: Checkout - Shipping
+  description: ""
+- name: Checkout - Payment
+  description: ""
+- name: Checkout - Completion
+  description: ""
+- name: Refunds
+  description: ""
+- name: "1.0"
+paths:
+  /checkout/cart/{cart_id}:
+    get:
+      tags:
+      - Checkout - Cart
+      summary: Get Cart by ID
+      operationId: getCart_1
+      parameters:
+      - name: X-Violet-Token
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Secret
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Id
+        in: header
+        schema:
+          type: integer
+          format: int32
+      - name: cart_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+    delete:
+      tags:
+      - Checkout - Cart
+      summary: Delete Cart
+      operationId: deleteCart_1
+      parameters:
+      - name: X-Violet-Token
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Secret
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Id
+        in: header
+        schema:
+          type: integer
+          format: int32
+      - name: cart_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        default:
+          description: successful operation
+          content: {}
+  /checkout/cart/{cart_id}/payment:
+    post:
+      tags:
+      - Checkout - Payment
+      summary: Apply Payment Method
+      operationId: applyPaymentMethod_1
+      parameters:
+      - name: X-Violet-Token
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Secret
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Id
+        in: header
+        schema:
+          type: integer
+          format: int32
+      - name: cart_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: price_cart
+        in: query
+        schema:
+          type: boolean
+          default: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentMethodRequest'
+        required: false
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+      x-codegen-request-body-name: body
+  /checkout/cart/{cart_id}/payment/update:
+    post:
+      tags:
+      - Checkout - Payment
+      summary: Update Payment Transaction
+      operationId: updatePaymentTransaction_1
+      parameters:
+      - name: X-Violet-Token
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Secret
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Id
+        in: header
+        schema:
+          type: integer
+          format: int32
+      - name: cart_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: price_cart
+        in: query
+        schema:
+          type: boolean
+          default: false
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+  /checkout/cart/{cart_id}/customer:
+    post:
+      tags:
+      - Checkout - Customer
+      summary: Apply Guest Customer to Cart
+      operationId: applyGuestCustomerToCart_1
+      parameters:
+      - name: X-Violet-Token
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Secret
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Id
+        in: header
+        schema:
+          type: integer
+          format: int32
+      - name: cart_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: async
+        in: query
+        schema:
+          type: boolean
+          default: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderCustomer'
+        required: false
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+      x-codegen-request-body-name: body
+  /checkout/cart/{cart_id}/shipping_address:
+    put:
+      tags:
+      - Checkout - Customer
+      summary: Update Shipping Address
+      operationId: updateShippingAddress_1
+      parameters:
+      - name: X-Violet-Token
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Secret
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Id
+        in: header
+        schema:
+          type: integer
+          format: int32
+      - name: cart_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: price_cart
+        in: query
+        schema:
+          type: boolean
+          default: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderAddress'
+        required: false
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+      x-codegen-request-body-name: body
+    post:
+      tags:
+      - Checkout - Customer
+      summary: Set Shipping Address
+      operationId: applyShippingAddress_1
+      parameters:
+      - name: X-Violet-Token
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Secret
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Id
+        in: header
+        schema:
+          type: integer
+          format: int32
+      - name: cart_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: price_cart
+        in: query
+        schema:
+          type: boolean
+          default: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderAddress'
+        required: false
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+      x-codegen-request-body-name: body
+  /checkout/cart/{cart_id}/billing_address:
+    put:
+      tags:
+      - Checkout - Customer
+      summary: Update Billing Address
+      operationId: updateBillingAddress_1
+      parameters:
+      - name: X-Violet-Token
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Secret
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Id
+        in: header
+        schema:
+          type: integer
+          format: int32
+      - name: cart_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: price_cart
+        in: query
+        schema:
+          type: boolean
+          default: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderAddress'
+        required: false
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+      x-codegen-request-body-name: body
+    post:
+      tags:
+      - Checkout - Customer
+      summary: Set Billing Address
+      operationId: applyBillingAddress_1
+      parameters:
+      - name: X-Violet-Token
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Secret
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Id
+        in: header
+        schema:
+          type: integer
+          format: int32
+      - name: cart_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: price_cart
+        in: query
+        schema:
+          type: boolean
+          default: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderAddress'
+        required: false
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+      x-codegen-request-body-name: body
+  /checkout/cart/{cart_id}/submit:
+    post:
+      tags:
+      - Checkout - Completion
+      summary: Submit Cart
+      operationId: submitCheckout_1
+      parameters:
+      - name: X-Violet-Token
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Secret
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Id
+        in: header
+        schema:
+          type: integer
+          format: int32
+      - name: cart_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CartSubmissionRequest'
+        required: false
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+      x-codegen-request-body-name: body
+  /orders/{order_id}/refunds:
+    get:
+      tags:
+      - Refunds
+      summary: Get Order Refunds
+      operationId: getOrderRefunds_1
+      parameters:
+      - name: X-Violet-Token
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Secret
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Id
+        in: header
+        schema:
+          type: integer
+          format: int32
+      - name: order_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Refund'
+  /orders/{order_id}/bags/{bag_id}/refunds:
+    get:
+      tags:
+      - Refunds
+      summary: Get Bag Refunds
+      operationId: getBagRefunds_1
+      parameters:
+      - name: X-Violet-Token
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Secret
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Id
+        in: header
+        schema:
+          type: integer
+          format: int32
+      - name: order_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: bag_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Refund'
+  /orders/{order_id}/refunds/{refund_id}:
+    get:
+      tags:
+      - Refunds
+      summary: Get Order Refund by ID
+      operationId: getOrderRefundById_1
+      parameters:
+      - name: X-Violet-Token
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Secret
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Id
+        in: header
+        schema:
+          type: integer
+          format: int32
+      - name: order_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: refund_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Refund'
+  /checkout/cart/{cart_id}/shipping:
+    post:
+      tags:
+      - Checkout - Shipping
+      summary: Set Shipping Methods
+      operationId: applyShippingMethods_1
+      parameters:
+      - name: X-Violet-Token
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Secret
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Id
+        in: header
+        schema:
+          type: integer
+          format: int32
+      - name: cart_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: price_cart
+        in: query
+        schema:
+          type: boolean
+          default: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/BagShippingMethod'
+        required: false
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+      x-codegen-request-body-name: body
+  /checkout/cart/{cart_id}/shipping/{shipping_method_id}:
+    delete:
+      tags:
+      - Checkout - Shipping
+      summary: Remove Shipping Method
+      operationId: removeShippingMethod_1
+      parameters:
+      - name: X-Violet-Token
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Secret
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Id
+        in: header
+        schema:
+          type: integer
+          format: int32
+      - name: cart_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: shipping_method_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: price_cart
+        in: query
+        schema:
+          type: boolean
+          default: false
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+  /checkout/cart/{cart_id}/discounts/{discount_id}:
+    delete:
+      tags:
+      - Checkout - Discounts
+      summary: Remove Discount from Cart
+      operationId: removeDiscountFromCart_1
+      parameters:
+      - name: X-Violet-Token
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Secret
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Id
+        in: header
+        schema:
+          type: integer
+          format: int32
+      - name: cart_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: discount_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: price_cart
+        in: query
+        schema:
+          type: boolean
+          default: false
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+  /checkout/cart/{cart_id}/discounts:
+    post:
+      tags:
+      - Checkout - Discounts
+      summary: Add Discount to Cart
+      operationId: addDiscountToCart_1
+      parameters:
+      - name: X-Violet-Token
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Secret
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Id
+        in: header
+        schema:
+          type: integer
+          format: int32
+      - name: cart_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: price_cart
+        in: query
+        schema:
+          type: boolean
+          default: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DiscountRequest'
+        required: false
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+      x-codegen-request-body-name: body
+  /checkout/cart/{cart_id}/skus/{order_sku_id}:
+    put:
+      tags:
+      - Checkout - Items
+      summary: Update SKU in Cart
+      operationId: updateSkuInCart_1
+      parameters:
+      - name: X-Violet-Token
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Secret
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Id
+        in: header
+        schema:
+          type: integer
+          format: int32
+      - name: cart_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: order_sku_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: price_cart
+        in: query
+        schema:
+          type: boolean
+          default: false
+      - name: async
+        in: query
+        schema:
+          type: boolean
+          default: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderSku'
+        required: false
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+      - Checkout - Items
+      summary: Remove SKU from Cart
+      operationId: removeSkuFromCart_1
+      parameters:
+      - name: X-Violet-Token
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Secret
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Id
+        in: header
+        schema:
+          type: integer
+          format: int32
+      - name: cart_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: order_sku_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: price_cart
+        in: query
+        schema:
+          type: boolean
+          default: false
+      - name: async
+        in: query
+        schema:
+          type: boolean
+          default: false
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+  /orders/{order_id}:
+    get:
+      tags:
+      - Orders
+      summary: Get Order by ID
+      operationId: getOrderById_1
+      parameters:
+      - name: X-Violet-Token
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Secret
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Id
+        in: header
+        schema:
+          type: integer
+          format: int32
+      - name: order_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+  /orders/search:
+    post:
+      tags:
+      - Orders
+      summary: Search Orders
+      operationId: searchOrders_1
+      parameters:
+      - name: X-Violet-Token
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Secret
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Id
+        in: header
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        schema:
+          type: integer
+          format: int32
+          default: 1
+      - name: size
+        in: query
+        schema:
+          type: integer
+          format: int32
+          default: 20
+      - name: extended
+        in: query
+        schema:
+          type: boolean
+          default: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchRequest'
+        required: false
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageOrder'
+      x-codegen-request-body-name: body
+  /orders/bags/search:
+    post:
+      tags:
+      - Orders
+      summary: Search Bags
+      operationId: searchBags_1
+      parameters:
+      - name: X-Violet-Token
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Secret
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Id
+        in: header
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        schema:
+          type: integer
+          format: int32
+          default: 1
+      - name: size
+        in: query
+        schema:
+          type: integer
+          format: int32
+          default: 20
+      - name: extended
+        in: query
+        schema:
+          type: boolean
+          default: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchRequest'
+        required: false
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageBag'
+      x-codegen-request-body-name: body
+  /orders:
+    get:
+      tags:
+      - Orders
+      summary: Get Orders
+      operationId: getAllOrders_1
+      parameters:
+      - name: X-Violet-Token
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Secret
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Id
+        in: header
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        schema:
+          type: integer
+          format: int32
+          default: 1
+      - name: size
+        in: query
+        schema:
+          type: integer
+          format: int32
+          default: 20
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageOrder'
+  /checkout/cart:
+    post:
+      tags:
+      - Checkout - Cart
+      summary: Create Cart
+      operationId: createCart_1
+      parameters:
+      - name: X-Violet-Token
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Secret
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Id
+        in: header
+        schema:
+          type: integer
+          format: int32
+      - name: apply_current_user
+        in: query
+        schema:
+          type: boolean
+          default: false
+      - name: default_payment
+        in: query
+        schema:
+          type: boolean
+          default: false
+      - name: app_order_id
+        in: query
+        schema:
+          type: string
+      - name: base_currency
+        in: query
+        schema:
+          type: string
+      - name: referral_id
+        in: query
+        schema:
+          type: string
+      - name: channel
+        in: query
+        schema:
+          type: string
+          enum:
+          - APP
+          - MARKETPLACE
+          - FACEBOOK
+          - INSTAGRAM
+          - WALMART
+          - GOOGLE
+          - TIKTOK
+          - SNAPCHAT
+          - PINTEREST
+      - name: async
+        in: query
+        schema:
+          type: boolean
+          default: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CartInitializationRequest'
+        required: false
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+      x-codegen-request-body-name: body
+  /checkout/cart/byToken/{token}:
+    get:
+      tags:
+      - Checkout - Cart
+      summary: Get Cart by Token
+      operationId: getCartByToken_1
+      parameters:
+      - name: X-Violet-Token
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Secret
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Id
+        in: header
+        schema:
+          type: integer
+          format: int32
+      - name: token
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+  /checkout/cart/{cart_id}/skus:
+    post:
+      tags:
+      - Checkout - Items
+      summary: Add SKU to Cart
+      operationId: addSkuToCart_1
+      parameters:
+      - name: X-Violet-Token
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Secret
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Id
+        in: header
+        schema:
+          type: integer
+          format: int32
+      - name: cart_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: price_cart
+        in: query
+        schema:
+          type: boolean
+          default: false
+      - name: async
+        in: query
+        schema:
+          type: boolean
+          default: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderSku'
+        required: false
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+      x-codegen-request-body-name: body
+  /checkout/cart/{cart_id}/price:
+    get:
+      tags:
+      - Checkout - Completion
+      summary: Price Cart
+      operationId: priceCart_1
+      parameters:
+      - name: X-Violet-Token
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Secret
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Id
+        in: header
+        schema:
+          type: integer
+          format: int32
+      - name: cart_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+  /checkout/cart/{cart_id}/shipping/available:
+    get:
+      tags:
+      - Checkout - Shipping
+      summary: Get Available Shipping Methods
+      operationId: getAvailableShippingMethods_1
+      parameters:
+      - name: X-Violet-Token
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Secret
+        in: header
+        schema:
+          type: string
+      - name: X-Violet-App-Id
+        in: header
+        schema:
+          type: integer
+          format: int32
+      - name: cart_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderShippingMethodWrapper'
+components:
+  schemas:
+    Bag:
+      required:
+      - app_id
+      - merchant_id
+      - order_id
+      - shipping_method
+      - taxes
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          readOnly: true
+        order_id:
+          type: integer
+          description: ID of the Order the Bag belongs to
+          format: int64
+        merchant_id:
+          type: integer
+          description: ID of the Merchant the Bag references
+          format: int32
+        app_id:
+          type: integer
+          description: ID of the App creating this Bag
+          format: int32
+        external_id:
+          type: string
+          description: ID of the Order on the External Ecommerce Platform
+        status:
+          type: string
+          description: Status
+          enum:
+          - IN_PROGRESS
+          - SUBMITTED
+          - ACCEPTED
+          - COMPLETED
+          - PARTIALLY_REFUNDED
+          - REFUNDED
+          - REJECTED
+          - CANCELED
+          - BACKORDERD
+        fulfillment_status:
+          type: string
+          description: Fulfillment Status
+          enum:
+          - PROCESSING
+          - SHIPPED
+          - PARTIALLY_SHIPPED
+          - DELIVERED
+          - COULD_NOT_DELIVER
+          - RETURNED
+        financial_status:
+          type: string
+          description: Financial Status
+          enum:
+          - UNPAID
+          - AUTHORIZED
+          - PENDING
+          - PAID
+          - PARTIALLY_PAID
+          - REFUNDED
+          - PARTIALLY_REFUNDED
+          - VOIDED
+        skus:
+          type: array
+          description: SKUs added to the bag
+          items:
+            $ref: '#/components/schemas/OrderSku'
+        shipping_method:
+          $ref: '#/components/schemas/OrderShippingMethod'
+        taxes:
+          type: array
+          description: Taxes applied to the bag
+          items:
+            $ref: '#/components/schemas/OrderTax'
+        sub_total:
+          type: integer
+          description: Subtotal of the bag
+          format: int32
+        shipping_total:
+          type: integer
+          description: Shipping Total of the bag
+          format: int32
+        tax_total:
+          type: integer
+          description: Tax Total of the bag
+          format: int32
+        discount_total:
+          type: integer
+          description: Discount Total of the bag
+          format: int32
+        total:
+          type: integer
+          description: Total price of the bag
+          format: int32
+        taxes_included:
+          type: boolean
+          description: Are taxes included in the cart total.
+        transactions:
+          type: array
+          description: Transactions of the bag
+          items:
+            $ref: '#/components/schemas/Transaction'
+        external_checkout:
+          type: boolean
+          description: If bag is tracked externally
+        commission_rate:
+          type: number
+          description: The developer commission rate
+          format: double
+        date_created:
+          type: string
+          description: Date of creation
+          format: date-time
+        remorse_period_ends:
+          type: string
+          description: Date when the bag can no longer be refunded
+          format: date-time
+        currency:
+          type: string
+          description: Base currency of cart
+        external_currency:
+          type: string
+          description: Currency of cart on external ecommerce platform
+        currency_exchange_rate:
+          type: number
+          description: Exchange rate of currency and external currency, if different,
+            at the time the bag was last priced.
+        channel:
+          type: string
+          description: The channel that originated this order.
+          enum:
+          - APP
+          - MARKETPLACE
+          - FACEBOOK
+          - INSTAGRAM
+          - WALMART
+          - GOOGLE
+          - TIKTOK
+          - SNAPCHAT
+          - PINTEREST
+        app_order_id:
+          type: string
+          description: App Order ID
+        platform:
+          type: string
+          description: The commerce platform used by this merchant.
+          enum:
+          - OTHER
+          - SHOPIFY
+          - MAGENTO
+          - MAGENTO_ONE
+          - WOOCOMMERCE
+          - BIGCOMMERCE
+          - LIGHTSPEED
+          - ECWID
+          - YAAS
+          - SPREECOMMERCE
+          - DEMANDWARE
+          - VOLUSION
+          - PRESTASHOP
+          - THREEDCART
+          - SYLIUS
+          - WIX
+          - SWELL
+          - MIVA
+          - WEBSPHERE
+          - ORACLECC
+          - SAPCC
+          - SQUARESPACE
+          - SHOPWARE
+          - COMMERCETOOLS
+          - MEDUSA
+          - ABICART
+          - SPRYKER
+          - MYSTORE
+          - CENTRA
+          - XCART
+          - VTEX
+          - KIBO
+          - SALEOR
+          - VENDO
+          - DIGITALRIVER
+          - CUSTOM
+        fulfillments:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/BagFulfillment'
+        discounts:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/BagDiscount'
+        wallet_based_checkout:
+          type: boolean
+          description: Is this bag going to be placed through wallet-based checkout
+        app_name:
+          type: string
+          description: Name of app that originated the order.
+        bagId:
+          type: integer
+          format: int64
+        bagStatus:
+          type: string
+          enum:
+          - IN_PROGRESS
+          - SUBMITTED
+          - ACCEPTED
+          - COMPLETED
+          - PARTIALLY_REFUNDED
+          - REFUNDED
+          - REJECTED
+          - CANCELED
+          - BACKORDERED
+        merchant_name:
+          type: string
+          description: Name of Merchant
+      description: Per Merchant Bag in Order
+    BagDiscount:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          readOnly: true
+        bag_id:
+          type: integer
+          description: ID of the Bag this discount belong to
+          format: int64
+        status:
+          type: string
+          description: Status of discount
+          enum:
+          - PENDING
+          - APPLIED
+          - INVALID
+          - NOT_SUPPORTED
+          - ERROR
+          - EXPIRED
+        type:
+          type: string
+          description: Type of discount
+          enum:
+          - CODE
+        value_type:
+          type: string
+          description: Value type of discount
+          enum:
+          - AMOUNT
+          - PERCENTAGE
+        code:
+          type: string
+          description: Code of discount
+        external_id:
+          type: string
+          description: External ID of discount
+        amount:
+          type: integer
+          description: Amount of discount
+          format: int32
+        percentage:
+          type: number
+          description: Percentage of discount
+          format: double
+        amount_total:
+          type: integer
+          description: Total amount of discount applied to bag
+          format: int32
+        date_created:
+          type: string
+          description: Date of creation
+          format: date-time
+        date_last_modified:
+          type: string
+          description: Date of last bag discount update
+          format: date-time
+      description: Bag Discount
+    BagFulfillment:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          readOnly: true
+        bag_id:
+          type: integer
+          description: ID of the bag the fulfillment belongs to.
+          format: int64
+        external_id:
+          type: string
+          description: ID of the fulfillment on the external commerce platform.
+        carrier:
+          type: string
+          description: Carrier responsible for the fulfillment.
+          enum:
+          - OTHER
+          - UPS
+          - USPS
+          - FEDEX
+          - DHL
+          - ONTRAC
+          - ROYAL_MAIL
+          - SENDLE
+          - POSTNORD
+        raw_carrier:
+          type: string
+          description: Raw name of carrier from the external commerce platform.
+        status:
+          type: string
+          description: ID of the Bag the fulfillment belongs to.
+          enum:
+          - PENDING
+          - PROCESSING
+          - SUCCESS
+          - CANCELED
+          - ERROR
+          - FAILURE
+          - NONE_PROVIDED
+        carrier_status:
+          type: string
+          description: ID of the Bag the fulfillment belongs to.
+          enum:
+          - PENDING
+          - LABEL_PURCHASED
+          - LABEL_PRINTED
+          - CONFIRMED
+          - READY_FOR_PICKUP
+          - IN_TRANSIT
+          - OUT_FOR_DELIVERY
+          - ATTEMPTED_DELIVERY
+          - DELIVERED
+          - FAILURE
+          - NONE_PROVIDED
+        tracking_number:
+          type: string
+          description: Tracking number provider by the carrier.
+        tracking_url:
+          type: string
+          description: Tracking URL provider by the carrier.
+        skus:
+          uniqueItems: true
+          type: array
+          description: SKUs fulfilled by this fulfillment.
+          items:
+            $ref: '#/components/schemas/BagFulfillmentSku'
+    BagFulfillmentSku:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          readOnly: true
+        fulfillment_id:
+          type: integer
+          description: ID of the fulfillment that contains this item.
+          format: int64
+        order_sku_id:
+          type: integer
+          description: ID of the SKU in the Bag.
+          format: int64
+        quantity_fulfilled:
+          type: integer
+          description: Quantity of the this item fulfilled by this fulfillment.
+          format: int32
+    Order:
+      required:
+      - status
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          readOnly: true
+        token:
+          type: string
+          readOnly: true
+        user_id:
+          type: integer
+          description: ID of the User placing the order
+          format: int64
+        app_id:
+          type: integer
+          description: ID of the App creating the order
+          format: int32
+        developer_id:
+          type: integer
+          description: ID of the Developer who placed
+          format: int32
+        customer:
+          $ref: '#/components/schemas/OrderCustomer'
+        bags:
+          type: array
+          description: Bags in the Order
+          items:
+            $ref: '#/components/schemas/Bag'
+        shipping_address:
+          $ref: '#/components/schemas/OrderAddress'
+        billing_address:
+          $ref: '#/components/schemas/OrderAddress'
+        payment_method:
+          $ref: '#/components/schemas/OrderPaymentMethod'
+        sub_total:
+          type: integer
+          description: Subtotal of the Order
+          format: int32
+        shipping_total:
+          type: integer
+          description: Shipping Total of the Order
+          format: int32
+        tax_total:
+          type: integer
+          description: Tax Total of the Order
+          format: int32
+        discount_total:
+          type: integer
+          description: Discount Total of the Order
+          format: int32
+        total:
+          type: integer
+          description: Total of the Order
+          format: int32
+        app_customer_id:
+          type: string
+          description: App Customer ID
+        app_order_id:
+          type: string
+          description: App Order ID
+        status:
+          type: string
+          description: Status of the Order
+          enum:
+          - in_progress
+          - processing
+          - completed
+          - canceled
+          - partially_refunded
+          - refunded
+          - requires_action
+        is_guest:
+          type: boolean
+          description: Order is Guest
+        date_created:
+          type: string
+          description: Date of order creation
+          format: date-time
+        date_last_modified:
+          type: string
+          description: Date of last order update
+          format: date-time
+        priced:
+          type: boolean
+          description: Is the cart priced
+        wallet_based_checkout:
+          type: boolean
+          description: Is this cart going to be placed through wallet-based checkout
+        currency:
+          type: string
+          description: Base currency of cart
+        referral_id:
+          type: string
+          description: Optional value used to represent an identifier in your system.
+        errors:
+          type: array
+          description: Errors on the Order
+          items:
+            $ref: '#/components/schemas/OrderError'
+        currency_symbol:
+          type: string
+          description: Symbol representing the desired currency
+        app_name:
+          type: string
+          description: Name of app that originated the order.
+        stripe_key:
+          type: string
+          description: Stripe publishable key. Use for tokenizing payment methods.
+        payment_intent_client_secret:
+          type: string
+          description: Payment intent client secret
+        guest:
+          type: boolean
+        orderStatus:
+          type: string
+          enum:
+          - IN_PROGRESS
+          - PROCESSING
+          - COMPLETED
+          - CANCELED
+          - PARTIALLY_REFUNDED
+          - REFUNDED
+          - REQUIRES_ACTION
+        intentBasedCheckout:
+          type: boolean
+        orderId:
+          type: integer
+          format: int64
+      description: Order
+    OrderAddress:
+      required:
+      - address_1
+      - city
+      - country
+      - postal_code
+      - state
+      - type
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name on Address
+        city:
+          type: string
+          description: City
+        state:
+          type: string
+          description: State Abbreviation
+        country:
+          type: string
+          description: Country ISO2 Code
+        postal_code:
+          type: string
+          description: Postal/Zip Code
+        phone:
+          type: string
+          description: Phone Number
+        type:
+          type: string
+          description: Address Type
+          enum:
+          - shipping
+          - billing
+        email:
+          type: string
+          description: Email Address
+        firstName:
+          type: string
+        lastName:
+          type: string
+        address_1:
+          type: string
+          description: First line of the Address
+        address_2:
+          type: string
+          description: Second line of the Address
+      description: The shipping or billing address of a user placing an order
+    OrderCustomer:
+      required:
+      - first_name
+      - last_name
+      type: object
+      properties:
+        user_id:
+          type: integer
+          description: ID of the User the Order Customer references
+          format: int64
+        first_name:
+          type: string
+          description: First Name
+        last_name:
+          type: string
+          description: Last Name
+        email:
+          type: string
+          description: Email Address of Customer
+        external_id:
+          type: string
+          description: ID of the Customer on the External Platform
+        shipping_address:
+          $ref: '#/components/schemas/OrderAddress'
+        billing_address:
+          $ref: '#/components/schemas/OrderAddress'
+        same_address:
+          type: boolean
+          description: Use Same Address for Both
+        name:
+          type: string
+      description: The Customer Placing the Order
+    OrderError:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          readOnly: true
+        order_id:
+          type: integer
+          description: Order ID
+          format: int64
+        bag_id:
+          type: integer
+          description: Bag ID
+          format: int64
+        entity_id:
+          type: string
+          description: Entity ID
+        type:
+          type: string
+          description: Error Type
+          enum:
+          - EXTERNAL_CREATE_CART
+          - EXTERNAL_ADD_ITEM
+          - EXTERNAL_UPDATE_ITEM
+          - EXTERNAL_REMOVE_ITEM
+          - EXTERNAL_ADD_CUSTOMER
+          - EXTERNAL_ADD_ADDRESSES
+          - EXTERNAL_ADD_SHIPPING_ADDRESS
+          - EXTERNAL_ADD_BILLING_ADDRESS
+          - EXTERNAL_GET_SHIPPING_METHODS
+          - EXTERNAL_SET_SHIPPING_METHOD
+          - EXTERNAL_SET_PAYMENT_METHOD
+          - EXTERNAL_PRICE_CART
+          - EXTERNAL_SUBMIT_CART
+          - INTERNAL_ADD_ITEM
+          - EXTERNAL_DELETE_CART
+          - EXTERNAL_CANCEL_ORDER
+          - EXTERNAL_WRITE_ORDER
+          - EXTERNAL_MARK_ORDER_AS_PAID
+          - EXTERNAL_ADD_DISCOUNT_CODE
+          - EXTERNAL_REMOVE_DISCOUNT_CODE
+        message:
+          type: string
+          description: Error Message
+        date_created:
+          type: string
+          description: Date of creation
+          format: date-time
+        platform:
+          type: string
+          enum:
+          - OTHER
+          - SHOPIFY
+          - MAGENTO
+          - MAGENTO_ONE
+          - WOOCOMMERCE
+          - BIGCOMMERCE
+          - LIGHTSPEED
+          - ECWID
+          - YAAS
+          - SPREECOMMERCE
+          - DEMANDWARE
+          - VOLUSION
+          - PRESTASHOP
+          - THREEDCART
+          - SYLIUS
+          - WIX
+          - SWELL
+          - MIVA
+          - WEBSPHERE
+          - ORACLECC
+          - SAPCC
+          - SQUARESPACE
+          - SHOPWARE
+          - COMMERCETOOLS
+          - MEDUSA
+          - ABICART
+          - SPRYKER
+          - MYSTORE
+          - CENTRA
+          - XCART
+          - VTEX
+          - KIBO
+          - SALEOR
+          - VENDO
+          - DIGITALRIVER
+          - CUSTOM
+      description: Order Error
+    OrderPaymentMethod:
+      required:
+      - payment_method_id
+      type: object
+      properties:
+        brand:
+          type: string
+          description: Brand of Card
+        last_four:
+          type: string
+          description: Last Four Numbers on Card
+        exp_month:
+          type: integer
+          description: Card Expiration Month
+          format: int32
+        exp_year:
+          type: integer
+          description: Card Expiration Year
+          format: int32
+        cardholder_name:
+          type: string
+          description: Name as it appears on Card
+        payment_method_id:
+          type: integer
+          description: ID of the referenced Payment Method
+          format: int64
+        default:
+          type: boolean
+          description: Is Default Method
+      description: Payment Method belonging to an Order
+    OrderShippingMethod:
+      required:
+      - bag_id
+      - merchant_id
+      - price
+      - shipping_method_id
+      - type
+      type: object
+      properties:
+        type:
+          type: string
+          description: Type of Shipping Method
+          enum:
+          - variable
+          - flat_rate
+        Carrier:
+          type: string
+          enum:
+          - ups
+          - usps
+          - fedex
+          - dhl
+          - ontrac
+        label:
+          type: string
+          description: Shipping Method Label
+        price:
+          type: integer
+          description: Total cost of the Shipping Method
+          format: int32
+        min_subtotal:
+          type: integer
+          description: Minimum Subtotal
+          format: int32
+        max_subtotal:
+          type: integer
+          format: int32
+        min_weight:
+          type: number
+          description: Minimum Weight
+          format: double
+        max_weight:
+          type: number
+          description: Maximum Weight
+          format: double
+        external_id:
+          type: string
+          description: ID(s) on external ecommerce platform
+        id:
+          type: integer
+          format: int64
+          readOnly: true
+        shipping_method_id:
+          type: string
+          description: ID of the referenced Shipping Method
+        bag_id:
+          type: integer
+          description: ID of the Bag the Shipping Method applies to
+          format: int64
+        merchant_id:
+          type: integer
+          description: ID of the merchant the bag belongs to
+          format: int32
+        tracking_number:
+          type: string
+          description: Carrier Tracking Number
+      description: Shipping Methods belonging to an Order
+    OrderSku:
+      required:
+      - sku_id
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        merchant_id:
+          type: integer
+          description: ID of the Merchant the SKU belongs to
+          format: int32
+        app_id:
+          type: integer
+          description: ID of the App creating the Order
+          format: int32
+        product_id:
+          type: string
+          description: ID of the Product
+        sku_id:
+          type: integer
+          description: ID of the referenced SKU
+          format: int64
+        external_id:
+          type: string
+          description: ID of the SKU on the External Ecommerce Platform
+        name:
+          type: string
+          description: Name of the SKU
+        brand:
+          type: string
+          description: Brand Name
+        thumbnail:
+          type: string
+          description: URL of the thumbnail image
+        quantity:
+          type: integer
+          description: Quantity of the SKU being purchased
+          format: int32
+        price:
+          type: integer
+          description: Price of the individual SKU
+          format: int32
+        weight:
+          type: number
+          description: Weight of SKU
+          format: double
+        height:
+          type: number
+          description: Height of SKU
+          format: double
+        width:
+          type: number
+          description: Width of SKU
+          format: double
+        length:
+          type: number
+          description: Length of SKU
+          format: double
+        available:
+          type: boolean
+          description: Is the product still available for purchase
+        status:
+          type: string
+          description: Sku Status
+          enum:
+          - IN_PROGRESS
+          - PROCESSING
+          - SHIPPED
+          - PARTIALLY_SHIPPED
+          - DELIVERED
+          - COULD_NOT_DELIVER
+          - RETURNED
+          - CANCELED
+          - REFUNDED
+          - REJECTED
+        product_type:
+          type: string
+          description: Product Type
+          enum:
+          - PHYSICAL
+          - DIGITAL
+          - VIRTUAL
+        quantity_fulfilled:
+          type: integer
+          description: The quantity of this item that has been fulfilled
+          format: int32
+        order_sku_rates:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderSkuRate'
+        transient_external_product_id:
+          type: string
+        line_price:
+          type: integer
+          description: Price of the SKU multiplied by the Quantity
+          format: int32
+          readOnly: true
+      description: SKUs belonging to an Order
+    OrderSkuRate:
+      required:
+      - amount
+      - name
+      - order_sku_id
+      - type
+      type: object
+      properties:
+        order_sku_id:
+          type: integer
+          description: ID of the Order SKU the Rate belongs to
+          format: int64
+        amount:
+          type: integer
+          description: Total Tax amount on Bag
+          format: int32
+        rate:
+          type: number
+          description: Rate
+          format: double
+        type:
+          type: string
+          description: Rate Type
+          enum:
+          - TAX
+          - SHIPPING
+          - FEE
+          - DUTY
+        name:
+          type: string
+          description: Rate Name
+        decimal_rate:
+          type: number
+          format: double
+        dollar_amount:
+          type: number
+          format: double
+      description: Rates belonging to Order SKUs
+    OrderTax:
+      required:
+      - amount
+      - merchant_id
+      - order_id
+      - rate
+      - state
+      type: object
+      properties:
+        order_id:
+          type: integer
+          description: ID of the Order the Tax belongs to
+          format: int64
+        merchant_id:
+          type: integer
+          description: ID of the Merchant the Bag belongs to
+          format: int32
+        skus:
+          type: array
+          description: SKUs covered by the Tax
+          items:
+            type: string
+        state:
+          type: string
+          description: State abbreviation
+        postal_code:
+          type: string
+          description: Postal/Zip Code
+        rate:
+          type: number
+          description: Tax Rate
+          format: double
+        amount:
+          type: integer
+          description: Total Tax amount on Bag
+          format: int32
+        description:
+          maxLength: 255
+          minLength: 0
+          type: string
+          description: Description of the Tax
+      description: Taxes belonging to an Order Bag
+    Transaction:
+      required:
+      - app_id
+      - bag_id
+      - merchant_id
+      - payment_method_id
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          readOnly: true
+        merchant_id:
+          type: integer
+          description: ID of the Merchant receiving the transaction
+          format: int32
+        app_id:
+          type: integer
+          description: ID of the App that created the Order
+          format: int32
+        order_id:
+          type: integer
+          description: ID of the Order the Transaction applies to
+          format: int64
+        bag_id:
+          type: integer
+          description: ID of the Bag the Transaction applies to
+          format: int64
+        payment_method_id:
+          type: integer
+          description: ID of the referenced Payment Method
+          format: int64
+        gateway_transaction_id:
+          type: string
+          description: ID of the Transaction in the Payment Gateway
+        gateway:
+          type: string
+          description: Gateway processing the Transaction
+        amount:
+          type: integer
+          description: Total amount being transacted
+          format: int32
+        currency:
+          type: string
+          description: Currency the Transaction takes place in
+        type:
+          type: string
+          description: Transaction Type
+          enum:
+          - AUTHORIZATION
+          - CAPTURE
+          - VOID
+          - REFUND
+        error_code:
+          type: string
+          description: Error Code from gateway if error occurred
+        status:
+          type: string
+          description: Transaction Status
+          enum:
+          - PROCESSING
+          - COMPLETED
+          - REFUNDED
+          - REQUIRES_ACTION
+        test:
+          type: boolean
+          description: Is this a test Transaction
+        date_created:
+          type: string
+          description: Date of transaction creation
+          format: date-time
+        date_last_modified:
+          type: string
+          description: Date of last transaction update
+          format: date-time
+        order_payment_method:
+          $ref: '#/components/schemas/OrderPaymentMethod'
+      description: Order Transaction
+    PaymentMethodRequest:
+      type: object
+      properties:
+        token:
+          type: string
+          description: Generated payment token.
+        intent_based_capture:
+          type: boolean
+          description: Trigger payment intent based capture
+        card_number:
+          type: string
+          description: Number on the credit or debit card.
+        card_cvc:
+          type: integer
+          description: CVC code on the credit or debit card.
+          format: int32
+        card_exp_month:
+          type: integer
+          description: Expiration month of the credit or debit card.
+          format: int32
+        card_exp_year:
+          type: integer
+          description: Expiration year of the credit or debit card.
+          format: int32
+        card_postal_code:
+          type: string
+          description: Postal Code of the credit or debit card.
+        complete_checkout:
+          type: boolean
+          description: Submit cart immediately after applying the payment method.
+        app_order_id:
+          type: string
+          description: Map the order in Violet to an order record within your system.
+      description: The payment method request for a cart. If the token is provided
+        no card data is required.
+    CartSubmissionRequest:
+      type: object
+      properties:
+        referral_id:
+          type: string
+          description: Associate the order with a user or affiliate in your system
+        app_order_id:
+          type: string
+          description: Map the order in Violet to an order record within your system.
+        app_transaction_id:
+          type: string
+          description: Transaction ID representing a transaction in the channels system.
+        app_transaction_gateway:
+          type: string
+          description: Gateway used to submit the order.
+        order_customer:
+          $ref: '#/components/schemas/OrderCustomer'
+      description: Properties for cart submission.
+    Refund:
+      required:
+      - amount
+      - app_id
+      - gateway_transaction_id
+      - merchant_id
+      - order_id
+      - transaction_id
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          readOnly: true
+        order_id:
+          type: integer
+          description: ID of the Order being refunded
+          format: int64
+        bag_id:
+          type: integer
+          description: ID of the Bag being refunded
+          format: int64
+        merchant_id:
+          type: integer
+          description: ID of the merchant making the refund
+          format: int32
+        app_id:
+          type: integer
+          description: ID of the App that created the Order
+          format: int32
+        transaction_id:
+          type: integer
+          description: ID of the Transaction being refunded
+          format: int64
+        gateway_transaction_id:
+          type: string
+          description: ID of the Transaction in the Payment Gateway
+        amount:
+          type: integer
+          description: Amount being refunded
+          format: int32
+        merchant_transfer_reversal_amount_usd:
+          type: integer
+          description: Amount being taken back from the associated transfer to the
+            merchant
+          format: int32
+        developer_transfer_reversal_amount_usd:
+          type: integer
+          description: Amount being taken back from the associated transfer to the
+            developer
+          format: int32
+        reason:
+          type: string
+          description: Reason for refund
+        refund_currency:
+          type: string
+          description: Currency set for this refund by the external ecom platform
+        status:
+          type: string
+          description: Status of the Refund
+          enum:
+          - PROCESSING
+          - COMPLETED
+          - CANCELED
+          - PARTIALLY_COMPLETED
+          - FAILED
+          - EXTERNAL
+        skus:
+          uniqueItems: true
+          type: array
+          description: SKUs the refund applies to
+          items:
+            $ref: '#/components/schemas/RefundOrderSku'
+        date_created:
+          type: string
+          description: Date of creation
+          format: date-time
+        date_last_modified:
+          type: string
+          description: Date of last update
+          format: date-time
+        external_id:
+          type: string
+          description: ID of the refund on the external commerce platform.
+        errors:
+          uniqueItems: true
+          type: array
+          description: List of errors associated to this refund during processing.
+          items:
+            $ref: '#/components/schemas/RefundErrors'
+      description: Order Refund
+    RefundErrors:
+      required:
+      - error_message
+      - refund_id
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          readOnly: true
+        error_code:
+          type: integer
+          format: int32
+        error_message:
+          type: string
+        refund_id:
+          type: integer
+          description: ID of the Refund this Error is associated to
+          format: int64
+      description: Errors associated to a refund
+    RefundOrderSku:
+      required:
+      - order_sku_id
+      - refund_id
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          readOnly: true
+        refund_id:
+          type: integer
+          description: Id of the Refund associated with Refund Order Sku
+          format: int64
+        bag_id:
+          type: integer
+          description: ID of the Bag being refunded
+          format: int64
+        quantity_refunded:
+          type: integer
+          description: Quantity of the this item refunded by this refund.
+          format: int32
+        external_id:
+          type: string
+          description: Variant Id in external Ecom platform
+        order_sku_id:
+          type: integer
+          description: Id of the Order Sku associated with Refund Order Sku
+          format: int64
+      description: Refunded Order Sku
+    BagShippingMethod:
+      type: object
+      properties:
+        bag_id:
+          type: integer
+          description: The ID of the bag the Shipping Method belongs to
+          format: int64
+        shipping_method_id:
+          type: integer
+          description: Price of the Shipping Method
+          format: int32
+        shipping_method_label:
+          type: string
+          description: Label of the Shipping Method
+      description: Shipping Method applied to a Bag
+    DiscountRequest:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Discount code being applied
+        merchant_id:
+          type: integer
+          description: ID of the Merchant the discount belongs to
+          format: int32
+      description: Discount request
+    Page:
+      type: object
+      properties:
+        total_pages:
+          type: integer
+          format: int32
+        total_elements:
+          type: integer
+          format: int64
+        last:
+          type: boolean
+        first:
+          type: boolean
+        pageable:
+          $ref: '#/components/schemas/Pageable'
+        number_of_elements:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/Sort'
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            type: object
+            properties: {}
+        number:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
+    PageOrder:
+      type: object
+      properties:
+        total_pages:
+          type: integer
+          format: int32
+        total_elements:
+          type: integer
+          format: int64
+        last:
+          type: boolean
+        first:
+          type: boolean
+        pageable:
+          $ref: '#/components/schemas/Pageable'
+        number_of_elements:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/Sort'
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/Order'
+        number:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
+    Pageable:
+      type: object
+      properties:
+        paged:
+          type: boolean
+        unpaged:
+          type: boolean
+        page_number:
+          type: integer
+          format: int32
+        page_size:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/Sort'
+        offset:
+          type: integer
+          format: int64
+    Sort:
+      type: object
+      properties:
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+        empty:
+          type: boolean
+    SearchRequest:
+      type: object
+      properties:
+        user_id:
+          type: integer
+          description: User ID
+          format: int64
+        order_id:
+          type: integer
+          description: Order ID
+          format: int64
+        bag_id:
+          type: integer
+          description: Bag ID
+          format: int64
+        referral_id:
+          type: string
+          description: Referral ID
+        app_order_id:
+          type: string
+          description: Order ID in the App's System
+        external_order_id:
+          type: string
+          description: Order ID in the External Commerce Platform
+      description: Order Search Request
+    PageBag:
+      type: object
+      properties:
+        total_pages:
+          type: integer
+          format: int32
+        total_elements:
+          type: integer
+          format: int64
+        last:
+          type: boolean
+        first:
+          type: boolean
+        pageable:
+          $ref: '#/components/schemas/Pageable'
+        number_of_elements:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/Sort'
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/Bag'
+        number:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
+    CartInitializationRequest:
+      type: object
+      properties:
+        base_currency:
+          type: string
+          description: Base currency of cart
+        skus:
+          type: array
+          description: Optional collection of SKUs
+          items:
+            $ref: '#/components/schemas/OrderSku'
+        referral_id:
+          type: string
+          description: Associate the order with a user or affiliate in your system
+        app_order_id:
+          type: string
+          description: Map the order in Violet to an order record within your system
+        customer:
+          $ref: '#/components/schemas/OrderCustomer'
+        discounts:
+          uniqueItems: true
+          type: array
+          description: Optional collection of Discounts
+          items:
+            $ref: '#/components/schemas/DiscountRequest'
+        wallet_based_checkout:
+          type: boolean
+          description: Boolean denoting whether or not this order will be placed through
+            a wallet based payment mechanism such as apple pay
+      description: Optional data to initialize the cart with on creation.
+    OrderShippingMethodWrapper:
+      type: object
+      properties:
+        bag_id:
+          type: integer
+          format: int64
+        shipping_methods:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderShippingMethod'
+      description: Order Shipping Method Wrapper

@@ -20,7 +20,7 @@
       "url": "https://violet.io/blog"
     },
     {
-      "name": "Contact Us", 
+      "name": "Contact Us",
       "url": "https://violet.io/contact"
     }
   ],
@@ -50,7 +50,7 @@
         "concepts/environments",
         "concepts/apps",
         {
-          "group": "🔒 Authentication", 
+          "group": "🔒 Authentication",
           "pages": [
             "concepts/authentication/overview",
             "concepts/authentication/obtaining-api-token",
@@ -73,88 +73,171 @@
       ]
     },
     {
-      "group": "Orders & Checkout",
+      "group": "Catalog Service",
       "pages": [
         {
-          "group": "Checkout - Cart", 
+          "group": "Catalog Categories",
           "pages": [
-            "api-reference/orders-checkout/checkout-cart/get-cart-by-id",
-            "api-reference/orders-checkout/checkout-cart/delete-cart",
-            "api-reference/orders-checkout/checkout-cart/create-cart",
-            "api-reference/orders-checkout/checkout-cart/get-cart-by-token"
+            "api-reference/catalog-service/catalog-categories/get-categories",
+            "api-reference/catalog-service/catalog-categories/get-category-by-id",
+            "api-reference/catalog-service/catalog-categories/get-category-by-slug",
+            "api-reference/catalog-service/catalog-categories/get-category-tree",
+            "api-reference/catalog-service/catalog-categories/search-categories"
           ]
         },
         {
-          "group": "Checkout - Payment", 
+          "group": "Catalog Offers",
           "pages": [
-            "api-reference/orders-checkout/checkout-payment/apply-payment-method",
-            "api-reference/orders-checkout/checkout-payment/update-payment-transaction"
+            "api-reference/catalog-service/catalog-offers/get-all-merchant-offers",
+            "api-reference/catalog-service/catalog-offers/get-offer-by-id",
+            "api-reference/catalog-service/catalog-offers/search-offers"
           ]
         },
         {
-          "group": "Checkout - Customer", 
-          "pages": [
-            "api-reference/orders-checkout/checkout-customer/apply-guest-customer-to-cart",
-            "api-reference/orders-checkout/checkout-customer/set-shipping-address",
-            "api-reference/orders-checkout/checkout-customer/update-shipping-address",
-            "api-reference/orders-checkout/checkout-customer/set-billing-address",
-            "api-reference/orders-checkout/checkout-customer/update-billing-address"
-          ]
+          "group": "Catalog SKUs",
+          "pages": ["api-reference/catalog-service/catalog-skus/get-sku-by-id"]
         },
         {
-          "group": "Checkout - Completion", 
+          "group": "Currencies",
           "pages": [
-            "api-reference/orders-checkout/checkout-completion/submit-cart",
-            "api-reference/orders-checkout/checkout-completion/price-cart"
-          ]
-        },
-        {
-          "group": "Refunds", 
-          "pages": [
-            "api-reference/orders-checkout/refunds/get-order-refunds",
-            "api-reference/orders-checkout/refunds/get-bag-refunds",
-            "api-reference/orders-checkout/refunds/get-order-refund-by-id"
-          ]
-        },
-        {
-          "group": "Checkout - Shipping", 
-          "pages": [
-            "api-reference/orders-checkout/checkout-shipping/set-shipping-methods",
-            "api-reference/orders-checkout/checkout-shipping/remove-shipping-method",
-            "api-reference/orders-checkout/checkout-shipping/get-available-shipping-methods"
-          ]
-        },
-        {
-          "group": "Checkout - Discounts", 
-          "pages": [
-            "api-reference/orders-checkout/checkout-discounts/remove-discount-from-cart",
-            "api-reference/orders-checkout/checkout-discounts/add-discount-to-cart"
-          ]
-        },
-        {
-          "group": "Checkout - Items", 
-          "pages": [
-            "api-reference/orders-checkout/checkout-items/update-sku-in-cart",
-            "api-reference/orders-checkout/checkout-items/remove-sku-from-cart",
-            "api-reference/orders-checkout/checkout-items/add-sku-to-cart"
-          ]
-        },
-        {
-          "group": "Orders", 
-          "pages": [
-            "api-reference/orders-checkout/orders/get-order-by-id",
-            "api-reference/orders-checkout/orders/search-orders",
-            "api-reference/orders-checkout/orders/search-bags",
-            "api-reference/orders-checkout/orders/get-orders"
+            "api-reference/catalog-service/currencies/Retrieves-the-latest-currency-exchange-rates-that-are-currently-being-utilized-within-Violet-when-calculating-the-prices-of-Offers-and-Carts-with-differing-currencies"
           ]
         }
       ]
     },
     {
-      "group": "Platform Guides", 
+      "group": "Event Service",
       "pages": [
-        "merchant-docs/shopify"
+        {
+          "group": "Events Webhook Events",
+          "pages": [
+            "api-reference/event-service/events-webhook-events/get-all-webhook-events",
+            "api-reference/event-service/events-webhook-events/get-webhook-event-body",
+            "api-reference/event-service/events-webhook-events/get-webhook-event-types",
+            "api-reference/event-service/events-webhook-events/get-webhook-event",
+            "api-reference/event-service/events-webhook-events/get-webhook-events"
+          ]
+        },
+        {
+          "group": "Events Wekbhook Headers",
+          "pages": [
+            "api-reference/event-service/events-webhook-headers/create-webhook-header",
+            "api-reference/event-service/events-webhook-headers/delete-webhook-header",
+            "api-reference/event-service/events-webhook-headers/get-webhook-header",
+            "api-reference/event-service/events-webhook-headers/get-webhook-headers",
+            "api-reference/event-service/events-webhook-headers/update-webhook-header"
+          ]
+        },
+        {
+          "group": "Events Webhooks",
+          "pages": [
+            "api-reference/event-service/events-webhooks/create-webhook",
+            "api-reference/event-service/events-webhooks/delete-channel-webhooks",
+            "api-reference/event-service/events-webhooks/get-webhook",
+            "api-reference/event-service/events-webhooks/delete-webhook",
+            "api-reference/event-service/events-webhooks/get-webhooks",
+            "api-reference/event-service/events-webhooks/update-webhook",
+            "api-reference/event-service/events-webhooks/update-webhooks-status"
+          ]
+        }
       ]
+    },
+    {
+      "group": "Operation Service",
+      "pages": [
+        "api-reference/operation-service/operations-connection-health/get-connection-health-report-by-merchant-id",
+        "api-reference/operation-service/operations-connection-health/get-connection-health",
+        "api-reference/operation-service/operations-connection-health/get-custom-connection-health-report-by-merchant-id"
+      ]
+    },
+    {
+      "group": "Order Service",
+      "pages": [
+        {
+          "group": "Checkout Cart",
+          "pages": [
+            "api-reference/order-service/checkout-cart/create-cart",
+            "api-reference/order-service/checkout-cart/delete-cart",
+            "api-reference/order-service/checkout-cart/get-cart-by-id",
+            "api-reference/order-service/checkout-cart/get-cart-by-token"
+          ]
+        },
+        {
+          "group": "Checkout Completion",
+          "pages": [
+            "api-reference/order-service/checkout-completion/price-cart",
+            "api-reference/order-service/checkout-completion/submit-cart"
+          ]
+        },
+        {
+          "group": "Checkout Customer",
+          "pages": [
+            "api-reference/order-service/checkout-customer/apply-guest-customer-to-cart",
+            "api-reference/order-service/checkout-customer/set-billing-address",
+            "api-reference/order-service/checkout-customer/set-shipping-address",
+            "api-reference/order-service/checkout-customer/update-billing-address",
+            "api-reference/order-service/checkout-customer/update-shipping-address"
+          ]
+        },
+        {
+          "group": "Checkout Discounts",
+          "pages": [
+            "api-reference/order-service/checkout-discounts/add-discount-to-cart",
+            "api-reference/order-service/checkout-discounts/remove-discount-from-cart"
+          ]
+        },
+        {
+          "group": "Checkout Items",
+          "pages": [
+            "api-reference/order-service/checkout-items/add-sku-to-cart",
+            "api-reference/order-service/checkout-items/remove-sku-from-cart",
+            "api-reference/order-service/checkout-items/update-sku-in-cart"
+          ]
+        },
+        {
+          "group": "Checkout Payment",
+          "pages": [
+            "api-reference/order-service/checkout-payment/apply-payment-method",
+            "api-reference/order-service/checkout-payment/update-payment-transaction"
+          ]
+        },
+        {
+          "group": "Checkout Shipping",
+          "pages": [
+            "api-reference/order-service/checkout-shipping/get-available-shipping-methods",
+            "api-reference/order-service/checkout-shipping/remove-shipping-method",
+            "api-reference/order-service/checkout-shipping/set-shipping-methods"
+          ]
+        },
+        {
+          "group": "Orders",
+          "pages": [
+            "api-reference/order-service/orders/get-order-by-id",
+            "api-reference/order-service/orders/get-orders",
+            "api-reference/order-service/orders/search-bags",
+            "api-reference/order-service/orders/search-orders"
+          ]
+        },
+        {
+          "group": "Refunds",
+          "pages": [
+            "api-reference/order-service/refunds/get-bag-refunds",
+            "api-reference/order-service/refunds/get-order-refund-by-id",
+            "api-reference/order-service/refunds/get-order-refunds"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "User Service",
+      "pages": [
+        "api-reference/user-service/access/login",
+        "api-reference/user-service/access/refresh-token"
+      ]
+    },
+    {
+      "group": "Platform Guides",
+      "pages": ["merchant-docs/shopify"]
     }
   ],
   "footerSocials": {
